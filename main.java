@@ -1,7 +1,6 @@
-// test
-
-public static void main (String [] args) {
-    System.out.print("Hello World");
-
-    System.out.print("Test");
+public class Main {
+    public static void main(String[] args) {
+        Playingfield testFeld = new Playingfield(10);
+        testFeld.zeichnen();
+    }
 }
