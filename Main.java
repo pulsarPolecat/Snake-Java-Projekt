@@ -18,17 +18,28 @@ public class Main {
             System.out.print("Direction (w/a/s/d) or 'q' to quit: ");
             String input = scanner.nextLine();
 
-            if (input.equals("w")) {
-                snake.setDirection("up");
-            } else if (input.equals("s")) {
-                snake.setDirection("down");
-            } else if (input.equals("a")) {
-                snake.setDirection("left");
-            } else if (input.equals("d")) {
-                snake.setDirection("right");
+            if (input.equals("q")) {
+                gameIsRunning = false;
+            } else {
+                // Richtung setzen
+                if (input.equals("w")) {
+                    snake.setDirection("up");
+                } else if (input.equals("s")) {
+                    snake.setDirection("down");
+                } else if (input.equals("a")) {
+                    snake.setDirection("left");
+                } else if (input.equals("d")) {
+                    snake.setDirection("right");
+                }
+                //Schlange bewegen
+                snake.move();
+
+                // Kollision mit der Wand
+
+                // Kollision mit der Wand
             }
+
             
-            snake.move();
         }
         System.out.println("Game Over.");
     }
