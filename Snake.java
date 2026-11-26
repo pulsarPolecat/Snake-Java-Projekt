@@ -1,54 +1,39 @@
 import java.util.ArrayList;
 
 public class Snake {
-    private ArrayList<int[]> body;
-    private String direction;
+    private ArrayList<int[]> body = new ArrayList<>(); // Index 0 = Kopf
+    private String direction = "right";
+    private boolean shouldGrow = false; // true = beim nächsten move() wachsen
 
     public Snake() {
-        body = new ArrayList<>();
-        //Start in the middle of the playfield
-        body.add(new int[]{10,10}); //head
-        body.add(new int[]{9, 10}); //Body
-        body.add(new int[]{8,10}); // Tail
-        direction = "right";
+        // Start in der Mitte: Kopf, Körper, Schwanz
+        body.add(new int[]{10, 10});
+        body.add(new int[]{9, 10});
+        body.add(new int[]{8, 10});
     }
 
-    // Getter method so the Playingfield can access the body parts
-    public ArrayList<int[]> getBody() {
-        return body;
+    public ArrayList<int[]> getBody() { return body; }
+    public int[] getHead() { return body.get(0); }
+    public void setDirection(String d) { direction = d; }
+    public void grow() { shouldGrow = true; }
+
+    // Prüft, ob die Schlange auf Feld (x, y) liegt
+    public boolean contains(int x, int y) {
+        for (int[] p : body) if (p[0] == x && p[1] == y) return true;
+        return false;
     }
 
-    public String getDirection() {
-        return direction;
-    }
-
-    public void setDirection(String newDirection) {
-        this.direction = newDirection;
-    }
-
-    // The logic to move the snake (Will be implemented in the next step)
     public void move() {
-        // 1. Get the current head position
-        int[] currentHead = body.get(0); 
-        int newX = currentHead[0];
-        int newY = currentHead[1];
-
-        // 2. Calculate the new position based on the direction
-        if (direction.equals("up")) {
-            newY = newY - 1;
-        } else if (direction.equals("down")) {
-            newY = newY + 1;
-        } else if (direction.equals("left")) {
-            newX = newX - 1;
-        } else if (direction.equals("right")) {
-            newX = newX + 1; 
+        int x = getHead()[0], y = getHead()[1];
+        switch (direction) {
+            case "up":    y--; break;
+            case "down":  y++; break;
+            case "left":  x--; break;
+            case "right": x++; break;
         }
-
-        // 3. Add the new head to the front of the list
-        body.add(0, new int[]{newX, newY});
-
-        // 4. Remove the tail (the last element) to simulate movement
-        // (We will handle "eating food" later!)
-        body.remove(body.size() -1);
+        body.add(0, new int[]{x, y}); // neuer Kopf vorne
+        // Schwanz nur entfernen, wenn nicht gefressen wurde
+        if (shouldGrow) shouldGrow = false;
+        else body.remove(body.size() - 1);
     }
 }
