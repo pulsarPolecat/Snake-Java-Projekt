@@ -1,58 +1,48 @@
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    static final int SIZE = 20; // Spielfeldgröße
+        public static void main(String[] args) {
         //Spiel Objekte
-        Playingfield field = new Playingfield(20);
+        Playingfield field = new Playingfield (SIZE);
         Snake snake = new Snake();
-        Food food = new Food(20);
+        Food food = createFood(snake);
         Scanner scanner = new Scanner(System.in);
 
-        boolean gameIsRunning = true;
 
         // game-loop
-        while (gameIsRunning) {
-            // Draw everything on the console
-            field.draw(snake, food); 
-            
+        while (true) {
+            field.draw(snake, food);
             System.out.print("Direction (w/a/s/d) or 'q' to quit: ");
             String input = scanner.nextLine();
+            
+            
 
-            if (input.equals("q")) {
-                gameIsRunning = false;
-            } else {
-                // Richtung setzen
-                if (input.equals("w")) {
-                    snake.setDirection("up");
-                } else if (input.equals("s")) {
-                    snake.setDirection("down");
-                } else if (input.equals("a")) {
-                    snake.setDirection("left");
-                } else if (input.equals("d")) {
-                    snake.setDirection("right");
-                }
+           switch (input) {
+                case "q": System.out.println("Game Over."); scanner.close(); return;
+                case "w": snake.setDirection("up"); break;
+                case "s": snake.setDirection("down"); break;
+                case "a": snake.setDirection("left"); break;
+                case "d": snake.setDirection("right"); break;
+            }
                 //Schlange bewegen
                 snake.move();
 
-                // Kollision mit der Wand
-                int[] head = snake.getBody().get(0);
-                int headX = head[0];
-                int headY = head[0];
-
-                //Prüfen, ob der Kopf die Wand berührt (0 oder 19)
-                if (headX <= 0 || headX >= 19 || headY <= 0 || headY >= 19) {
-                    gameIsRunning =  false; // Spiel beendet
-
-                    // Noch einmal zeichen, damit man den Code sieht
-                    field.draw(snake, food);
-                    System.out.println("\nCRASH! Du bist gegen die Wand gefahren");
-                    System.out.println("GAME OVER");
-                }
-                // Kollision mit der Wand
+            // Kopf auf Futter: wachsen und neues Futter erzeugen
+            if (snake.contains(food.getX(), food.getY())) {
+                snake.grow();
+                food = createFood(snake);
             }
-
-            
+          }   
         }
-        System.out.println("Game Over.");
+
+// Neues Futter so lange würfeln, bis es nicht auf der Schlange liegt
+    private static Food createFood(Snake snake) {
+        Food food;
+        do food = new Food(SIZE);
+        while (snake.contains(food.getX(), food.getY()));
+        return food;
     }
-}
+
+       // System.out.println("Game Over.");
+    }
