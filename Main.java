@@ -35,7 +35,19 @@ public class Main {
                 snake.move();
 
                 // Kollision mit der Wand
+                int[] head = snake.getBody().get(0);
+                int headX = head[0];
+                int headY = head[0];
 
+                //Prüfen, ob der Kopf die Wand berührt (0 oder 19)
+                if (headX <= 0 || headX >= 19 || headY <= 0 || headY >= 19) {
+                    gameIsRunning =  false; // Spiel beendet
+
+                    // Noch einmal zeichen, damit man den Code sieht
+                    field.draw(snake, food);
+                    System.out.println("\nCRASH! Du bist gegen die Wand gefahren");
+                    System.out.println("GAME OVER");
+                }
                 // Kollision mit der Wand
             }
 
