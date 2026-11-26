@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        //game objects
+        //Spiel Objekte
         Playingfield field = new Playingfield(20);
         Snake snake = new Snake();
         Food food = new Food(20);
@@ -12,15 +12,23 @@ public class Main {
 
         // game-loop
         while (gameIsRunning) {
-            field.draw(snake, food); // Draw everything on the console
+            // Draw everything on the console
+            field.draw(snake, food); 
             
             System.out.print("Direction (w/a/s/d) or 'q' to quit: ");
             String input = scanner.nextLine();
 
-            if (input.equals("q")) {
-                gameIsRunning = false;
-            } 
-            // TODO: Add movement logic here later
+            if (input.equals("w")) {
+                snake.setDirection("up");
+            } else if (input.equals("s")) {
+                snake.setDirection("down");
+            } else if (input.equals("a")) {
+                snake.setDirection("left");
+            } else if (input.equals("d")) {
+                snake.setDirection("right");
+            }
+            
+            snake.move();
         }
         System.out.println("Game Over.");
     }

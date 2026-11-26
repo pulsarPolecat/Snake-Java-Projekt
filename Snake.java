@@ -28,6 +28,27 @@ public class Snake {
 
     // The logic to move the snake (Will be implemented in the next step)
     public void move() {
-        //TODO
+        // 1. Get the current head position
+        int[] currentHead = body.get(0); 
+        int newX = currentHead[0];
+        int newY = currentHead[1];
+
+        // 2. Calculate the new position based on the direction
+        if (direction.equals("up")) {
+            newY = newY - 1;
+        } else if (direction.equals("down")) {
+            newY = newY + 1;
+        } else if (direction.equals("left")) {
+            newX = newX - 1;
+        } else if (direction.equals("right")) {
+            newX = newX + 1; 
+        }
+
+        // 3. Add the new head to the front of the list
+        body.add(0, new int[]{newX, newY});
+
+        // 4. Remove the tail (the last element) to simulate movement
+        // (We will handle "eating food" later!)
+        body.remove(body.size() -1);
     }
 }
